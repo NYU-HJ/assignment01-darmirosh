@@ -20,27 +20,76 @@ class ArrayList{
         size=0;
     }
     ArrayList(ArrayList<T>& l){
-        // your code here
+      //array list copy constructor
+      public: 
+      Node<T>* head;
+      int size;
+
+      ArrayList(){
+          head=NULL;
+          size=0;
+      } // default constructor
+      ArrayList(ArrayList<T>& l){
+          head=NULL;
+          size=0;
+          Node<T>* temp=l.head;
+          while(temp){
+              add(temp->value);
+              temp=temp->next;
+          }
+      } // copy constructor
+
+
+
     }
     ~ArrayList(){
-        // your code here
+        Node<T>* temp=head;
+        while(temp){
+            Node<T>* temp2=temp;
+            temp=temp->next;
+            delete temp2;
+        }
+
     }
     void add(T v){
-        // your code here
+       Node<T>* n=new Node<T>(v);
+        if(head==NULL){
+            head=n;
+        }else{
+            Node<T>* temp=head;
+            while(temp->next){
+                temp=temp->next;
+            }
+            temp->next=n;
+        }
+        size++;
+
     }
     T pop(){
-      // your code here
-      T v;
-      return v;
+        if(head==NULL)
+            throw runtime_error("List is empty");
+        Node<T>* temp=head;
+        head=head->next;
+        T v=temp->value;
+        delete temp;
+        size--;
+        return v;
     }
 
     bool operator==(const ArrayList<T>& rhs){
-      // your code here
-      return 0;
+      Node<T>* temp1=head;
+      Node<T>* temp2=rhs.head;
+      while(temp1&&temp2){
+          if(temp1->value!=temp2->value)
+              return 0;
+          temp1=temp1->next;
+          temp2=temp2->next;
+      }
+      return (temp1==NULL)&&(temp2==NULL);
     }
 
     bool operator!=(const ArrayList<T>& rhs){
-      // your code here
+      return !(*this==rhs);
       return 0;
     }
     template <class E> 
@@ -48,6 +97,10 @@ class ArrayList{
 };
 template <class E> 
 ostream& operator<<(ostream& os, ArrayList<E>& l){
-    // your code here
+    Node<E>* temp=l.head;
+    while(temp){
+        os<<temp->value<<" ";
+        temp=temp->next;
+    } 
     return os;
 }

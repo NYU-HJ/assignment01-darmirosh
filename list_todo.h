@@ -1,4 +1,5 @@
 #include "container.h"
+
 class List: public Container{
   public:
     Node* head;
@@ -8,32 +9,90 @@ class List: public Container{
       size=0;
     }
     List(int v){
-      // Your code here
+      this->add(v);
+
     }
     List(List& l){
-      // Your code here
+      Node* temp=l.head;
+      while(temp){
+        add(temp->value);
+        temp=temp->next;
+      }
     }
     ~List(){
-      // Your code here
+      Node* temp=head;
+      while(temp){
+        Node* temp2=temp;
+        temp=temp->next;
+        delete temp2;
+      }
+
+
     }
     void add(int v){
-      // Your code here
+      Node* n=new Node(v);
+      if(head==NULL){
+        head=n;
+      }else{
+        Node* temp=head;
+        while(temp->next){
+          temp=temp->next;
+        }
+        temp->next=n;
+      }
+      size++;
     }
     int pop(){
-      // Your code here
-      return 0;
+      if(head==NULL){
+        throw runtime_error("List is empty");
+      }
+      Node* temp=head;
+      head=head->next;
+      int v=temp->value;
+      delete temp;
+      size--;
+      return v;
     }
+
     bool operator==(const List& rhs){
-      // Your code here
-      return false;
+      if (size!=rhs.size){
+        return false;
+      }
+      Node* temp1=head;
+      Node* temp2=rhs.head;
+      while(temp1&&temp2){
+        if(temp1->value!=temp2->value){
+          return false;
+        }
+        temp1=temp1->next;
+        temp2=temp2->next;
+      }
+      return true;
     }
+
     bool operator!=(const List& rhs){
-      // Your code here
-      return false;
-    }
+      if (size!=rhs.size){
+        return true;
+      }
+      Node* temp1=head;
+      Node* temp2=rhs.head;
+      while(temp1&&temp2){
+        if(temp1->value!=temp2->value){
+          return true;
+        }
+        temp1=temp1->next;
+        temp2=temp2->next;
+      }
+      return false; 
+      }
     friend ostream& operator<<(ostream& os, List& l);
 };
 ostream& operator<<(ostream& os, List& l){
-    // Your code here
+  Node* temp=l.head;
+  while(temp){
+    os<<temp->value<<" ";
+    temp=temp->next;
+  }
+  
     return os;
 }

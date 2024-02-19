@@ -1,15 +1,16 @@
 #include <iostream>
+#include <stdexcept>
+
 using namespace std;
+
 template <typename E> 
-class Node{
-  public:
+class Node {
+public:
     E value;
     Node* next;
-    Node(E v){
-      value=v;
-      next=NULL;
-    }
+    Node(E v) : value(v), next(nullptr) {}
 };
+
 template <class T> 
 class ArrayList{
   public:
@@ -19,36 +20,32 @@ class ArrayList{
         head=NULL;
         size=0;
     }
-    ArrayList(ArrayList<T>& l){
-      //array list copy constructor
-      public: 
-      Node<T>* head;
-      int size;
-
-      ArrayList(){
-          head=NULL;
-          size=0;
-      } // default constructor
-      ArrayList(ArrayList<T>& l){
-          head=NULL;
-          size=0;
-          Node<T>* temp=l.head;
-          while(temp){
-              add(temp->value);
-              temp=temp->next;
-          }
-      } // copy constructor
-
-
+    ArrayList(const ArrayList<T>& l) : head(nullptr), size(0) {
+        Node<T>* current = l.head;
+        Node<T>* last = nullptr;
+        while (current != nullptr) {
+            Node<T>* newNode = new Node<T>(current->value);
+            if (last == nullptr) {
+                head = newNode;
+            } else {
+                last->next = newNode;
+            }
+            last = newNode;
+            current = current->next;
+        }
+        size = l.size;
 
     }
-    ~ArrayList(){
-        Node<T>* temp=head;
-        while(temp){
-            Node<T>* temp2=temp;
-            temp=temp->next;
-            delete temp2;
-        }
+
+    ~ArrayList() {
+    Node<T>* current = head;
+    while (current != nullptr) {
+        Node<T>* nextNode = current->next;
+        delete current;
+        current = nextNode;
+    }
+    head = nullptr; 
+    size = 0;
 
     }
     void add(T v){

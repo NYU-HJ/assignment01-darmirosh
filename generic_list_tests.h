@@ -119,7 +119,7 @@ namespace tests{
             person p1(10,"james");person p2(20,"mike");
             person p3(30,"sarah");person p4(40,"sedra");
             ArrayList<person> L1; L1.add(p1); L1.add(p2); L1.add(p3); L1.add(p4);
-            ArrayList<person>(L2);
+            ArrayList<person> L2 = L1;
             if(L1==L2)
                 cout<<"Test case-6 run successfully.."<<endl;
             else

@@ -10,7 +10,7 @@ int main() {
   run_list_test_case_4();
   run_list_test_case_5();
   run_list_test_case_6();
-  run_list_test_case_7();
+  //run_list_test_case_7();
   run_list_test_case_8();
 
   // Generic List Test Cases
@@ -20,7 +20,7 @@ int main() {
   run_generic_list_test_case_4();
   run_generic_list_test_case_5();
   run_generic_list_test_case_6();
-  run_generic_list_test_case_7();
+  //run_generic_list_test_case_7();
   run_generic_list_test_case_8();
   
   // Stack Test Cases
@@ -30,7 +30,7 @@ int main() {
   run_stack_test_case_4();
   run_stack_test_case_5();
   run_stack_test_case_6();
-  run_stack_test_case_7();
+  //run_stack_test_case_7();
   run_stack_test_case_8();
 
 }

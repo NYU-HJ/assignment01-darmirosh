@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdexcept> // For std::runtime_error
-#include "container.h"
+//#include "container.h"
 
 using namespace std;
 
@@ -20,21 +20,30 @@ public:
 
     ArrayList() : head(NULL), size(0) {}
 
+    //// Test case-6: copy constructor
+        //cout<<"Running Test case-6:  \t\t try to run copy constructor"<<endl;
+        //try{
+            //person p1(10,"james");person p2(20,"mike");
+            //person p3(30,"sarah");person p4(40,"sedra");
+            //ArrayList<person> L1; L1.add(p1); L1.add(p2); L1.add(p3); L1.add(p4);
+            //ArrayList<person>(L2);
+            //if(L1==L2)
+                //cout<<"Test case-6 run successfully.."<<endl;
+            //else
+                //throw runtime_error("Test case-6 Fail");
+       // }catch(...){
+            //cout<<"Test case-6 failed .......... unable to use copy constructor correctly"<<endl;
+       // }
+
     // Copy constructor
     ArrayList(const ArrayList<T>& l) : head(NULL), size(0) {
         Node<T>* temp = l.head;
-        Node<T>* last = NULL;
         while (temp) {
-            Node<T>* newNode = new Node<T>(temp->value);
-            if (!last) {
-                head = newNode;
-            } else {
-                last->next = newNode;
-            }
-            last = newNode;
+            this->add(temp->value); // Add elements from the original list to the new list.
             temp = temp->next;
-            size++;
         }
+        
+
     }
 
     ~ArrayList() {
@@ -64,13 +73,27 @@ public:
         if (!head) {
             throw runtime_error("List is empty");
         }
-        Node<T>* temp = head;
-        T value = temp->value;
-        head = head->next;
-        delete temp;
-        size--;
-        return value;
+        if (head->next == NULL) { // Only one element
+            T value = head->value;
+            delete head;
+            head = NULL;
+            size--;
+            return value;
+        } else {
+            Node<T>* prev = NULL;
+            Node<T>* temp = head;
+            while (temp->next != NULL) {
+                prev = temp;
+                temp = temp->next;
+            }
+            T value = temp->value;
+            delete temp;
+            prev->next = NULL;
+            size--;
+            return value;
+        }
     }
+
 
     bool operator==(const ArrayList<T>& rhs) const {
         Node<T>* temp1 = head;

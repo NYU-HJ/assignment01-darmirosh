@@ -14,16 +14,23 @@ public:
     Stack(int v) {
         this->push(v);
     }
-    Stack(Stack& l) {
-        std::vector<int> temp;
-        while (l.size) {
-            temp.push_back(l.pop());
-        }
-        for (int i = temp.size() - 1; i >= 0; i--) {
-            l.push(temp[i]);
-            this->push(temp[i]);
-        }
+    Stack(const Stack& l) {
+    head = NULL;
+    size = 0;
+
+    // Use a vector to reverse the order of elements because the stack is LIFO.
+    std::vector<int> temp;
+    Node* current = l.head;
+    while (current != NULL) {
+        temp.push_back(current->value);
+        current = current->next;
     }
+
+    // Now push elements onto the new stack in reverse order to maintain the original order.
+    for (int i = temp.size() - 1; i >= 0; i--) {
+        this->push(temp[i]);
+    }
+}
     ~Stack() {
         Node* temp = head;
         while (temp) {

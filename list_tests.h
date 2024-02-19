@@ -90,7 +90,7 @@ namespace tests{
         cout<<"Running Test case-6:  \t\t try to run copy constructor"<<endl;
         try{
             List L1; L1.add(10); L1.add(20); L1.add(30); L1.add(40);
-            List(L2);
+            List L2(L1);
             if(L1==L2)
                 cout<<"Test case-6 run successfully.."<<endl;
             else

@@ -1,5 +1,6 @@
 #include <iostream>
-#include <stdexcept>
+#include <stdexcept> // For std::runtime_error
+#include "container.h"
 
 using namespace std;
 
@@ -8,96 +9,96 @@ class Node {
 public:
     E value;
     Node* next;
-    Node(E v) : value(v), next(nullptr) {}
+    Node(E v) : value(v), next(NULL) {} // Use NULL instead of nullptr in older C++
 };
 
 template <class T> 
-class ArrayList{
-  public:
+class ArrayList {
+public:
     Node<T>* head;
     int size;
-    ArrayList(){
-        head=NULL;
-        size=0;
-    }
-    ArrayList(const ArrayList<T>& l) : head(nullptr), size(0) {
-        Node<T>* current = l.head;
-        Node<T>* last = nullptr;
-        while (current != nullptr) {
-            Node<T>* newNode = new Node<T>(current->value);
-            if (last == nullptr) {
+
+    ArrayList() : head(NULL), size(0) {}
+
+    // Copy constructor
+    ArrayList(const ArrayList<T>& l) : head(NULL), size(0) {
+        Node<T>* temp = l.head;
+        Node<T>* last = NULL;
+        while (temp) {
+            Node<T>* newNode = new Node<T>(temp->value);
+            if (!last) {
                 head = newNode;
             } else {
                 last->next = newNode;
             }
             last = newNode;
-            current = current->next;
+            temp = temp->next;
+            size++;
         }
-        size = l.size;
-
     }
 
     ~ArrayList() {
-    Node<T>* current = head;
-    while (current != nullptr) {
-        Node<T>* nextNode = current->next;
-        delete current;
-        current = nextNode;
+        Node<T>* temp = head;
+        while (temp) {
+            Node<T>* next = temp->next;
+            delete temp;
+            temp = next;
+        }
     }
-    head = nullptr; 
-    size = 0;
 
-    }
-    void add(T v){
-       Node<T>* n=new Node<T>(v);
-        if(head==NULL){
-            head=n;
-        }else{
-            Node<T>* temp=head;
-            while(temp->next){
-                temp=temp->next;
+    void add(T v) {
+        Node<T>* newNode = new Node<T>(v);
+        if (!head) {
+            head = newNode;
+        } else {
+            Node<T>* temp = head;
+            while (temp->next) {
+                temp = temp->next;
             }
-            temp->next=n;
+            temp->next = newNode;
         }
         size++;
-
     }
-    T pop(){
-        if(head==NULL)
+
+    T pop() {
+        if (!head) {
             throw runtime_error("List is empty");
-        Node<T>* temp=head;
-        head=head->next;
-        T v=temp->value;
+        }
+        Node<T>* temp = head;
+        T value = temp->value;
+        head = head->next;
         delete temp;
         size--;
-        return v;
+        return value;
     }
 
-    bool operator==(const ArrayList<T>& rhs){
-      Node<T>* temp1=head;
-      Node<T>* temp2=rhs.head;
-      while(temp1&&temp2){
-          if(temp1->value!=temp2->value)
-              return 0;
-          temp1=temp1->next;
-          temp2=temp2->next;
-      }
-      return (temp1==NULL)&&(temp2==NULL);
+    bool operator==(const ArrayList<T>& rhs) const {
+        Node<T>* temp1 = head;
+        Node<T>* temp2 = rhs.head;
+        while (temp1 && temp2) {
+            if (temp1->value != temp2->value) {
+                return false;
+            }
+            temp1 = temp1->next;
+            temp2 = temp2->next;
+        }
+        return temp1 == NULL && temp2 == NULL;
     }
 
-    bool operator!=(const ArrayList<T>& rhs){
-      return !(*this==rhs);
-      return 0;
+    bool operator!=(const ArrayList<T>& rhs) const {
+        return !(*this == rhs);
     }
-    template <class E> 
-    friend ostream& operator<<(ostream& os, ArrayList<E>& l);
 };
+
 template <class E> 
-ostream& operator<<(ostream& os, ArrayList<E>& l){
-    Node<E>* temp=l.head;
-    while(temp){
-        os<<temp->value<<" ";
-        temp=temp->next;
-    } 
+ostream& operator<<(ostream& os, const ArrayList<E>& l) {
+    Node<E>* temp = l.head;
+    while (temp) {
+        os << temp->value << " ";
+        temp = temp->next;
+    }
     return os;
 }
+
+
+

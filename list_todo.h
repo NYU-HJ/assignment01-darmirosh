@@ -13,18 +13,18 @@ public:
 
     List() : head(NULL), size(0) {}
 
-    List(int v) : List() {
+    List(int v) {
         this->add(v);
     }
 
-   List(const List& l) : List() {
-    Node* temp = l.head;
-    while (temp != nullptr) {
-        this->add(temp->value); // Add elements from the original list to the new list.
-        temp = temp->next;
+   //copy constructor
+    List(const List& l) : head(NULL), size(0) {
+        Node* temp = l.head;
+        while (temp) {
+            this->add(temp->value);
+            temp = temp->next;
+        }
     }
-
-}
 
     ~List() {
         Node* temp;

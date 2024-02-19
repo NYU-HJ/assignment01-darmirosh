@@ -33,12 +33,13 @@ public:
     }
 }
     ~Stack() {
-        Node* temp = head;
-        while (temp) {
-            Node* temp2 = temp;
-            temp = temp->next;
-            delete temp2;
+        Node* temp;
+        while (head) {
+            temp = head;
+            head = head->next;
+            delete temp;
         }
+        size = 0;
     }
     void push(int v) {
         Node* n = new Node(v);
